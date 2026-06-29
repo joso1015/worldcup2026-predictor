@@ -1,0 +1,17 @@
+venue,city,country,lat,lon,heat_index,altitude_m,utc_offset,afternoon_high_c,evening_c,indoor
+Estadio Azteca,Mexico City,MEX,19.30,-99.15,0.40,2240,-6,24,16,0
+Estadio Akron,Guadalajara,MEX,20.68,-103.46,0.55,1566,-6,28,20,0
+Estadio BBVA,Monterrey,MEX,25.67,-100.31,0.95,540,-6,35,27,0
+SoFi Stadium,Los Angeles,USA,33.95,-118.34,0.50,40,-7,24,19,0
+Levi's Stadium,San Francisco Bay Area,USA,37.40,-121.97,0.40,5,-7,26,18,0
+Lumen Field,Seattle,USA,47.59,-122.33,0.30,10,-7,23,17,0
+Arrowhead Stadium,Kansas City,USA,39.05,-94.48,0.75,270,-5,31,25,0
+AT&T Stadium,Dallas,USA,32.75,-97.09,0.55,180,-5,35,29,1
+NRG Stadium,Houston,USA,29.68,-95.41,0.55,15,-5,34,28,1
+Mercedes-Benz Stadium,Atlanta,USA,33.76,-84.40,0.45,320,-4,31,24,1
+Hard Rock Stadium,Miami,USA,25.96,-80.24,0.90,2,-4,32,28,0
+Gillette Stadium,Boston,USA,42.09,-71.26,0.40,90,-4,26,20,0
+Lincoln Financial Field,Philadelphia,USA,39.90,-75.17,0.60,12,-4,29,23,0
+MetLife Stadium,New York New Jersey,USA,40.81,-74.07,0.45,2,-4,28,22,0
+BMO Field,Toronto,CAN,43.63,-79.42,0.40,76,-4,26,20,0
+BC Place,Vancouver,CAN,49.28,-123.11,0.30,3,-7,21,16,0

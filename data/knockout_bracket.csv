@@ -1,0 +1,33 @@
+match_no,stage,home_team,away_team,home_slot,away_slot,date_local,kickoff_local,venue,city,country,indoor,expected_temp_c
+73,r32,South Africa,Canada,,,2026-06-28,12:00,SoFi Stadium,Inglewood,USA,0,22
+74,r32,Germany,Paraguay,,,2026-06-29,16:30,Gillette Stadium,Foxborough,USA,0,23
+75,r32,Netherlands,Morocco,,,2026-06-29,19:00,Estadio BBVA,Guadalupe,MEX,0,31
+76,r32,Brazil,Japan,,,2026-06-29,12:00,NRG Stadium,Houston,USA,1,22
+77,r32,France,Sweden,,,2026-06-30,17:00,MetLife Stadium,East Rutherford,USA,0,28
+78,r32,Ivory Coast,Norway,,,2026-06-30,12:00,AT&T Stadium,Arlington,USA,1,22
+79,r32,Mexico,Ecuador,,,2026-06-30,19:00,Estadio Azteca,Mexico City,MEX,0,20
+80,r32,England,DR Congo,,,2026-07-01,12:00,Mercedes-Benz Stadium,Atlanta,USA,1,22
+81,r32,United States,Bosnia and Herzegovina,,,2026-07-01,17:00,Levi's Stadium,Santa Clara,USA,0,22
+82,r32,Belgium,Senegal,,,2026-07-01,13:00,Lumen Field,Seattle,USA,0,23
+83,r32,Portugal,Croatia,,,2026-07-02,19:00,BMO Field,Toronto,CAN,0,23
+84,r32,Spain,Austria,,,2026-07-02,12:00,SoFi Stadium,Inglewood,USA,0,22
+85,r32,Switzerland,Algeria,,,2026-07-02,20:00,BC Place,Vancouver,CAN,0,18
+86,r32,Argentina,Cape Verde,,,2026-07-03,18:00,Hard Rock Stadium,Miami Gardens,USA,0,30
+87,r32,Colombia,Ghana,,,2026-07-03,20:30,Arrowhead Stadium,Kansas City,USA,0,28
+88,r32,Australia,Egypt,,,2026-07-03,13:00,AT&T Stadium,Arlington,USA,1,22
+89,r16,,,73W,75W,2026-07-04,12:00,NRG Stadium,Houston,USA,1,22
+90,r16,,,74W,77W,2026-07-04,17:00,Lincoln Financial Field,Philadelphia,USA,0,26
+91,r16,,,76W,78W,2026-07-05,16:00,MetLife Stadium,East Rutherford,USA,0,28
+92,r16,,,79W,80W,2026-07-05,18:00,Estadio Azteca,Mexico City,MEX,0,20
+93,r16,,,83W,84W,2026-07-06,14:00,AT&T Stadium,Arlington,USA,1,22
+94,r16,,,81W,82W,2026-07-06,17:00,Lumen Field,Seattle,USA,0,23
+95,r16,,,86W,88W,2026-07-07,12:00,Mercedes-Benz Stadium,Atlanta,USA,1,22
+96,r16,,,85W,87W,2026-07-07,13:00,BC Place,Vancouver,CAN,0,18
+97,qf,,,89W,90W,2026-07-09,16:00,Gillette Stadium,Foxborough,USA,0,17
+98,qf,,,93W,94W,2026-07-10,12:00,SoFi Stadium,Inglewood,USA,0,22
+99,qf,,,91W,92W,2026-07-11,17:00,Hard Rock Stadium,Miami Gardens,USA,0,30
+100,qf,,,95W,96W,2026-07-11,20:00,Arrowhead Stadium,Kansas City,USA,0,28
+101,sf,,,97W,98W,2026-07-14,14:00,AT&T Stadium,Arlington,USA,1,22
+102,sf,,,99W,100W,2026-07-15,15:00,Mercedes-Benz Stadium,Atlanta,USA,1,22
+103,third,,,101L,102L,2026-07-18,17:00,Hard Rock Stadium,Miami Gardens,USA,0,30
+104,final,,,101W,102W,2026-07-19,15:00,MetLife Stadium,East Rutherford,USA,0,28
