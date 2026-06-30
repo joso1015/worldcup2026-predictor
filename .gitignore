@@ -1,6 +1,5 @@
 __pycache__/
 *.pyc
-model.pkl
 .DS_Store
 .streamlit/secrets.toml
 .env
