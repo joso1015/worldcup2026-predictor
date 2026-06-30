@@ -96,31 +96,70 @@ HISTORY = load_history()
 SQUADS = load_squads()
 
 # ---------------------------------------------------------------- sidebar ----
-st.sidebar.title("⚽ Model controls")
+st.sidebar.title("⚽ World Cup 2026")
 st.sidebar.caption(DATA_AS_OF)
 
+st.sidebar.subheader("Profile presets")
+PRESETS = [
+    dict(label="Default", home_adv=80, elo_to_goals=1.65, base_total=2.70, rho=-0.04),
+    dict(label="Conservative", home_adv=80, elo_to_goals=1.45, base_total=2.35, rho=-0.08),
+    dict(label="High scoring", home_adv=80, elo_to_goals=1.85, base_total=2.90, rho=-0.02),
+]
+# Try to load fitted modes from parameter sweep summary
+fitted_modes = []
+try:
+    import json as _json
+    sweep_path = os.path.join(OUT, "parameter_sweep_summary.json")
+    if os.path.exists(sweep_path):
+        with open(sweep_path, encoding="utf-8") as _f:
+            _summary = _json.load(_f)
+        _winners = _summary.get("winners", {})
+        _fitted = [
+            ("Best ML scores", "most_likely_score"),
+            ("Best ML results", "most_likely_result"),
+            ("Best Expanded fit", "expanded_result"),
+        ]
+        for _lbl, _key in _fitted:
+            _row = _winners.get(_key)
+            if _row:
+                fitted_modes.append(dict(
+                    label=_lbl,
+                    home_adv=int(_row["home_adv"]),
+                    elo_to_goals=float(_row["elo_to_goals"]),
+                    base_total=float(_row["base_total"]),
+                    rho=float(_row["rho"]),
+                ))
+except Exception:
+    pass
+ALL_PRESETS = PRESETS + fitted_modes
+
+# Initialize session state
+for key in ["home_adv", "elo_to_goals", "base_total", "rho"]:
+    if key not in st.session_state:
+        st.session_state[key] = ALL_PRESETS[0][key]
+
+# Render preset buttons in a compact grid (3 per row)
+cols = st.sidebar.columns(3)
+for ci, preset in enumerate(ALL_PRESETS[:6]):
+    row = ci // 3
+    with cols[ci % 3]:
+        if st.button(preset["label"], key=f"preset_{ci}", use_container_width=True):
+            for key in ["home_adv", "elo_to_goals", "base_total", "rho"]:
+                st.session_state[key] = preset[key]
+
+st.sidebar.markdown("---")
 st.sidebar.subheader("Engine parameters")
-home_adv = st.sidebar.slider("Host home advantage (Elo)", 0, 150, 80, 5,
+
+home_adv = st.sidebar.slider("Host home advantage (Elo)", 0, 150, key="home_adv", step=5,
                              help="Elo boost for Mexico / USA / Canada when playing in their own country.")
 elo_to_goals = st.sidebar.slider("Elo → goal supremacy (per 400 Elo)",
-                                 1.0, 2.5, 1.65, 0.05,
+                                 1.0, 2.5, key="elo_to_goals", step=0.05,
                                  help="How strongly rating gaps become expected goal margins.")
-base_total = st.sidebar.slider("Baseline goals per match", 2.0, 3.2, 2.7, 0.05,
+base_total = st.sidebar.slider("Baseline goals per match", 2.0, 3.2, key="base_total", step=0.05,
                                help="Expected total goals in an even match.")
 rho = st.sidebar.slider("Dixon-Coles low-score correction (ρ)",
-                        -0.20, 0.05, -0.04, 0.01,
+                        -0.20, 0.05, key="rho", step=0.01,
                         help="Adjusts the 0-0, 1-0, 0-1 and 1-1 cells in the score grid.")
-
-with st.sidebar.expander("What do these controls do?"):
-    st.markdown("""
-    **Host home advantage** adds Elo points to a host nation at home.
-
-    **Elo → goal supremacy** turns rating gaps into goal margin.
-
-    **Baseline goals** sets the match's starting goal total.
-
-    **Dixon-Coles ρ** tweaks the lowest scorelines after the Poisson grid is built.
-    """)
 
 st.sidebar.subheader("ML calibration")
 if ml_available:
@@ -128,7 +167,7 @@ if ml_available:
                                   help="0 = pure statistical, 1 = pure ML.")
 else:
     ml_weight = 0.0
-    st.sidebar.info("ML model not trained yet. Run `python train_model.py`.")
+    st.sidebar.info("ML model now trained! Slide ML weight above 0 to blend.")
 
 st.sidebar.subheader("Simulation")
 n_sims = st.sidebar.select_slider("Monte Carlo runs",
