@@ -91,9 +91,12 @@ class MLModel:
     def load(cls, path=MODEL_PATH):
         if not os.path.exists(path):
             return None
-        with open(path, "rb") as f:
-            d = pickle.load(f)
-        return cls(d["home"], d["away"])
+        try:
+            with open(path, "rb") as f:
+                d = pickle.load(f)
+            return cls(d["home"], d["away"])
+        except Exception:
+            return None
 
 
 def main():

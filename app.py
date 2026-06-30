@@ -91,7 +91,10 @@ def load_squads():
 
 _RDATA = _mtime(DATA_FILE)
 P = get_predictor(_results_mtime=_RDATA)
-ml_available = bool(MLModel and MLModel.load())
+try:
+    ml_available = bool(MLModel and MLModel.load())
+except Exception:
+    ml_available = False
 HISTORY = load_history()
 SQUADS = load_squads()
 
