@@ -485,7 +485,7 @@ main.summary-active{grid-template-columns:0 1fr !important}
 main.summary-active #master{overflow:hidden;padding:0;border:0;max-width:0}
 main.summary-active #toolbar{display:none !important}
 main.summary-active~.hsub,main.summary-active .hsub{display:none !important}
-main.bracket-active{grid-template-columns:260px 1fr !important}
+main.bracket-active{grid-template-columns:340px 1fr !important}
 main.bracket-active{grid-template-columns:1fr 1fr}
 main.bracket-active #toolbar{display:none}
 main.bracket-active .hsub{display:none}
@@ -640,11 +640,6 @@ code{background:#0c1322;padding:1px 5px;border-radius:4px;font-size:11.5px}
 .brm-header.open .arrow{transform:rotate(90deg)}
 .brm-body{padding:6px 0 2px 6px}
 .brm-tbd{color:var(--mut);font-size:12px;padding:8px 10px;font-style:italic}
-.brm-card{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:7px 10px;margin-bottom:5px;cursor:pointer;font-size:12px}
-.brm-card:hover{border-color:var(--acc2)}
-.brm-card.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
-.brm-card .teams{display:flex;justify-content:space-between;gap:6px;font-weight:600}
-.brm-card .score-detail{display:flex;justify-content:space-between;color:var(--mut);font-size:10.5px;margin-top:3px}
 /* ---- bracket tree visual ---- */
 .br-tree-wrap{padding:16px;display:flex;flex-direction:row;gap:20px;overflow-x:auto;overflow-y:auto;height:calc(100vh - 60px);align-items:flex-start}
 .br-col{display:flex;flex-direction:column;gap:6px;min-width:190px;flex:1 0 auto}
@@ -850,14 +845,19 @@ function renderBracketMaster(){
       html+='<div class="brm-tbd">TBD — pairings depend on earlier rounds</div>';
     }else{
       for(var gi=0;gi<rnd.games.length;gi++){
-        var g=rnd.games[gi];
+        var         g=rnd.games[gi];
         if(!g.home||!g.away)continue;
         var kid=esc(rl)+'-'+gi;
-        var kd=km[kid], cls='brm-card'+(state.koSel===kid?' sel':'');
+        var kd=km[kid];
         var advPct=kd?Math.round(Math.max(kd.p_home_adv,kd.p_away_adv)*100):50;
-        html+='<div class="'+cls+'" onclick="selKo(\''+kid+'\')">'+
-          '<div class="teams"><span>'+esc(g.home)+'</span><span>'+esc(g.away)+'</span></div>'+
-          '<div class="score-detail"><span>'+esc(g.score)+'</span><span>'+advPct+'% adv</span></div></div>';
+        var advLabel=kd?('Adv: '+esc(kd.home)+' '+Math.round(kd.p_home_adv*100)+'% &mdash; '+esc(kd.away)+' '+Math.round(kd.p_away_adv*100)+'%'):'';
+        var score=g.score||'?';
+        html+="<div class='mcard"+(state.koSel===kid?' sel':'')+"' onclick='selKo(\""+kid+"\")'>"+
+          "<div class='mc-top'><span class='mc-grp'>"+esc(rl)+"</span>"+
+          "<span>"+advLabel+"</span></div>"+
+          "<div class='mc-mid'><span class='mc-team'>"+esc(g.home)+"</span>"+
+          "<span class='mc-score'>"+esc(score)+"</span>"+
+          "<span class='mc-team r'>"+esc(g.away)+"</span></div></div>";
       }
     }
     html+='</div></div>';
