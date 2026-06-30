@@ -29,24 +29,34 @@ OUT = os.path.join(HERE, "outputs")
 st.set_page_config(page_title="World Cup 2026 Score Predictor",
                    page_icon="⚽", layout="wide")
 
+DATA_FILE = os.path.join(DATA, "results.csv")
+
+
+def _mtime(path):
+    """Get file modification timestamp for cache busting."""
+    try:
+        return os.path.getmtime(path)
+    except OSError:
+        return 0
+
 
 @st.cache_resource
-def get_predictor():
+def get_predictor(_results_mtime=0):
     return model.load_predictor()
 
 
 @st.cache_data(show_spinner="Running tournament simulations…")
-def run_sim(param_tuple, n_sims, ml_active):
+def run_sim(param_tuple, n_sims, ml_active, _results_mtime=0):
     p = model.Params(*param_tuple)
-    P = get_predictor()
+    P = get_predictor(_results_mtime)
     P.model_ml = MLModel.load() if (ml_active and MLModel) else None
     return P.simulate_tournament(n_sims=n_sims, p=p)
 
 
 @st.cache_data(show_spinner="Fitting engine settings to entered results…")
-def run_accuracy_summary(param_tuple, ml_active):
+def run_accuracy_summary(param_tuple, ml_active, _results_mtime=0):
     p = model.Params(*param_tuple)
-    P = get_predictor()
+    P = get_predictor(_results_mtime)
     P.model_ml = MLModel.load() if (ml_active and MLModel) else None
     current = accuracy.evaluate_params(P, p)
     saved = accuracy.load_summary(OUT)
@@ -79,7 +89,8 @@ def load_squads():
     return {k: v for k, v in squads.items() if v}
 
 
-P = get_predictor()
+_RDATA = _mtime(DATA_FILE)
+P = get_predictor(_results_mtime=_RDATA)
 ml_available = bool(MLModel and MLModel.load())
 HISTORY = load_history()
 SQUADS = load_squads()
@@ -123,6 +134,12 @@ st.sidebar.subheader("Simulation")
 n_sims = st.sidebar.select_slider("Monte Carlo runs",
                                   options=[1000, 2000, 5000, 10000], value=5000)
 
+st.sidebar.subheader("Data")
+if st.sidebar.button("🔄 Reload data", help="Re-read results.csv and recalculate all predictions. Needed whenever you add new match results."):
+    st.cache_resource.clear()
+    st.cache_data.clear()
+    st.rerun()
+
 params = model.Params(home_adv=home_adv, elo_to_goals=elo_to_goals,
                       base_total=base_total, rho=rho, ml_weight=ml_weight)
 P.model_ml = MLModel.load() if (ml_weight > 0 and MLModel) else None
@@ -140,7 +157,7 @@ tab_summary, tab_groups, tab_ko, tab_odds, tab_explore = st.tabs(
 
 # --------------------------------------------------------------- summary -----
 with tab_summary:
-    summary = run_accuracy_summary(ptuple, ml_weight > 0)
+    summary = run_accuracy_summary(ptuple, ml_weight > 0, _results_mtime=_RDATA)
     current = summary["current"]
     metrics = current["metrics"]
     played = metrics["played"]
@@ -512,7 +529,7 @@ with tab_ko:
 
 # ------------------------------------------------------- tournament odds -----
 with tab_odds:
-    odds = run_sim(ptuple, n_sims, ml_weight > 0)
+    odds = run_sim(ptuple, n_sims, ml_weight > 0, _results_mtime=_RDATA)
     top = odds.head(20)
     fig = px.bar(top, x="win_title", y="team", orientation="h",
                  labels={"win_title": "Title probability", "team": ""},
