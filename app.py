@@ -370,7 +370,7 @@ def render_match_detail(P, home, away, params, venue_country="", venue="",
                        color="Prob."), x=list(range(cap)), y=list(range(cap)),
                        color_continuous_scale="Greens", text_auto=".3f")
         hm.update_layout(height=500, margin=dict(l=10, r=10, t=30, b=10))
-        st.plotly_chart(hm, width='stretch')
+        st.plotly_chart(hm, config=dict(responsive=True))
         st.markdown(f"**Most likely scorelines:** " +
                     " · ".join(f"{s} ({pr*100:.0f}%)" for s, pr in base["top_scores"]))
 
@@ -537,7 +537,7 @@ with tab_odds:
     fig.update_layout(yaxis=dict(autorange="reversed"), height=560,
                       xaxis_tickformat=".0%", margin=dict(l=10, r=10, t=30, b=10))
     fig.update_traces(marker_color="#28d17c")
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig, config=dict(responsive=True))
 
     disp = odds.copy()
     for c in ["reach_r32", "reach_r16", "reach_qf", "reach_sf",
